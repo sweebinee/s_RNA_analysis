@@ -55,8 +55,7 @@ for folder in Fdict.keys():
     for lnline in lninf:
         rfile="_".join(lnline.split("/")[-1].split("_")[:-1])
         inputdir1="/".join(lnline.split("/")[:-1])
-        inputfile1="%s/%s_1.fastq"%(inputdir1, rfile); inputfile2="%s/%s_2.fastq"%(inputdi
-r1, rfile)
+        inputfile1="%s/%s_1.fastq"%(inputdir1, rfile); inputfile2="%s/%s_2.fastq"%(inputdir1, rfile)
         EXfile1=os.path.isfile(inputfile1); EXfile2=os.path.isfile(inputfile2)
         print inputfile1,inputfile2
         if EXfile1 == False or EXfile2 ==False:
