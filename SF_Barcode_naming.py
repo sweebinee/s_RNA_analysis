@@ -1,9 +1,9 @@
 import os,glob
 
 main_dir = '/storage2/Project/TCGA_fusion/Raw_TCGA'
-cancer = 'BRCA' 
-jason = 'files.2018-06-04.json' 
-tsv = 'BRCA.tsv'
+cancer = 'UCEC' 
+jason = 'files.2018-09-27.json' 
+tsv = 'UCEC.tsv'
 
 os.system("cd %s/%s/fasta"%(main_dir,cancer))
 os.system("ls -R | grep './\|.tar.gz' | sed '/logs/d'> %s_tar_list.txt"%cancer)
@@ -15,7 +15,7 @@ for line in file:
         if './' in line:
             folder = line.split('./')[1].split(':')[0]
         elif '.tar.gz' in line:
-            tar = line.split('\n')[0]
+            tar = line.split('\n')[0].split('\r')[0]
         Fdict[folder] = tar
     except:
         print line
@@ -38,8 +38,8 @@ gdc = open("%s/%s/%s"%(main_dir,cancer,tsv))
 gdc_lines = gdc.readlines()
 for line in gdc_lines:
     try: 
-        uuid = line.split('\t')[2]
-        bar = line.split('\t')[3]
+        uuid = line.split('\t')[1]
+        bar = line.split('\t')[2]
         Bdict[uuid]=bar
     except:
         print line
