@@ -51,7 +51,8 @@ for folder in Fdict.keys():
 lndir="%s/%s/ln_fasta"%(main_dir,cancer)
 
 for folder in Fdict.keys():
-    lninf=glob.glob("%s/%s/fasta/%s/*.fastq"%(main_dir,cancer,folder))
+    lninf=glob.glob("%s/%s/%s/*.fastq"%(main_dir,cancer,folder))
+    print lninf
     for lnline in lninf:
         rfile="_".join(lnline.split("/")[-1].split("_")[:-1])
         inputdir1="/".join(lnline.split("/")[:-1])
