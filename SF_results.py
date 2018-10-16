@@ -2,7 +2,7 @@
 $ ls > SKCM_sample.txt
 
 import os,re
-cancer = 'SKCM'
+cancer = 'UCEC'
 maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
 sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
 sample_list = set([line.rstrip("\n") for line in sample.readlines()])
@@ -10,7 +10,7 @@ sample_list = set([line.rstrip("\n") for line in sample.readlines()])
 os.system("rm %s/result/%s_result.txt"%(maindir,cancer))
 
 for i in sample_list:
-#	os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.tsv"%(maindir,i,maindir,i))
+	os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.tsv"%(maindir,i,maindir,i))
 	os.system("cat %s/%s/star-fusion.fusion_predictions.abridged.tsv > %s/result/%s.txt"%(maindir,i,maindir,i))
 	os.system("ls %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
 	os.system("cat %s/result/%s.txt | cut -f1-3 >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
