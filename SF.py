@@ -56,7 +56,7 @@ for sample in sample_list:
 #######################################################################################
 #STAD fasta gz file has sample_id
 
-sample_list=['2f04894d-353b-4be8-8461-7f3ec1440e22']
+sample_list=['5fc0927e-070b-463d-ad14-892d2beba700']
 for sample in sample_list:
     lninf=glob.glob("/storage2/Project/TCGA_fusion/Raw_TCGA/%s/fasta/%s/*.tar"%(cancer,sample))
     #['/storage2/Project/TCGA_fusion/Raw_TCGA/STAD/fasta/00a4e56f-c9f4-4c3d-b795-9b468de83223/TCGA-D7-6818-01A-11R-1884-13_rnaseq_fastq.tar']
