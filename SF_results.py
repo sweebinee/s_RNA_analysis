@@ -1,63 +1,85 @@
 #result RAW file collecting code (ver.STAR-Fusion)
-$ ls > SKCM_sample.txt
+ls -d TCGA* > PAAD_sample.txt
 
 import os,re
-cancer = 'UCEC'
-maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
-sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
-sample_list = set([line.rstrip("\n") for line in sample.readlines()])
 
-os.system("rm %s/result/%s_result.txt"%(maindir,cancer))
+cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
+#LAML 따로 
 
-for i in sample_list:
-	os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.tsv"%(maindir,i,maindir,i))
-	os.system("cat %s/%s/star-fusion.fusion_predictions.abridged.tsv > %s/result/%s.txt"%(maindir,i,maindir,i))
-	os.system("ls %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
-	os.system("cat %s/result/%s.txt | cut -f1-3 >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+for cancer in cancer_list:
+	#cancer = 'ACC'
+	maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
+	sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
+	sample_list = set([line.rstrip("\n") for line in sample.readlines()])
+	os.system("rm %s/result/%s_result.txt"%(maindir,cancer))
+	#i = 'TCGA-OR-A5LR-01A-11R-A29S-07'
+	for i in sample_list:
+		os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.tsv"%(maindir,i,maindir,i))
+		os.system("cat %s/%s/star-fusion.fusion_predictions.abridged.tsv > %s/result/%s.txt"%(maindir,i,maindir,i))
+		os.system("ls %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+		os.system("cat %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+	#
+	os.system("sed '/#/d' %s/result/%s_result.txt > %s/result/1.txt"%(maindir,cancer,maindir))
+	os.system("sed 's/\/storage2\/Project\/TCGA_fusion\/STARFusion\/%s\/result\///g' %s/result/1.txt > %s/result/%s_result.txt"%(cancer,maindir,maindir,cancer))
+	#
+	result = open("%s/result/%s_result.txt"%(maindir,cancer),'r') 
+	result_lines = result.readlines()
+	sample = re.compile("^TCGA")
+	result_table = open("%s/result/%s_result_table.txt"%(maindir,cancer),'w')
+	#sample_ID   fusion   JunctionReadCount   SpanningFragCount
+	for i in result_lines:
+		sample_check = sample.match(i)
+		if sample_check :
+			sample_ID = i.rstrip(".txt\n")
+		else :
+			result_table.write("%s\t%s\t%s"%(cancer,sample_ID,i))
+	#
+	result.close()
+	result_table.close()
+	#
+	result_T = open("%s/result/%s_result_table.txt"%(maindir,cancer),'r') 
+	result_Tlines = result_T.readlines()
+	filtered_result = open("%s/result/%s_filtered_result.txt"%(maindir,cancer),'w')
+	for i in result_Tlines:
+		seed = int(i.split('\t')[3])
+		spanning = int(i.split('\t')[4].rstrip('\n'))
+		if (seed == 1 & spanning >= 2) | seed >= 2:
+			filtered_result.write("%s"%i)
+	#
+	result_T.close()
+	filtered_result.close()
+	#
+	os.system("cut -f2 %s/result/%s_filtered_result.txt | sort | uniq -dc | sort > %s/result/%s_duplicate.txt"%(maindir,cancer,maindir,cancer))
+	#
+	filtered_result = open("%s/result/%s_filtered_result.txt"%(maindir,cancer),'r')
+	Flines = filtered_result.readlines()
+	para_filtered_result = open("%s/result/%s_filtered_paralog_result.txt"%(maindir,cancer),'w')
+	para = open("%s/result/%s_paralog_trash.txt"%(maindir,cancer),'w')
+	no_HGNC = open("%s/result/%s_HGNC_trash.txt"%(maindir,cancer),'w')
+	#
+	for i in Flines:
+		fusion = i.split('\t')[2]
+		H_gene = fusion.split('--')[0]
+		T_gene = fusion.split('--')[1]
+		if len(H_gene) == 2 | len(T_gene) ==2:
+			if H_gene[0:2] == T_gene[0:2]:
+				para.write("%s"%i)
+			else:
+				para_filtered_result.write("%s"%i)
+		elif H_gene[0:3] != T_gene[0:3]:
+			para.write("%s"%i)
+		elif H_gene.find("-") != -1 | T_gene.find("-") != -1 :
+			no_HGNC.write("%s"%i)
+		else: para_filtered_result.write("%s"%i)
+	#
+	para.close()
+	no_HGNC.close()
+	filtered_result.close()
+	para_filtered_result.close()
 
-os.system("sed '/#/d' %s/result/%s_result.txt > %s/result/1.txt"%(maindir,cancer,maindir))
-os.system("sed 's/\/storage2\/Project\/TCGA_fusion\/STARFusion\/%s\/result\///g' %s/result/1.txt > %s/result/%s_result.txt"%(cancer,maindir,maindir,cancer))
-
-result = open("%s/result/%s_result.txt"%(maindir,cancer),'r') 
-result_lines = result.readlines()
-sample = re.compile("^TCGA")
-result_table = open("%s/result/%s_result_table.txt"%(maindir,cancer),'w')
-#sample_ID   fusion   JunctionReadCount   SpanningFragCount
-for i in result_lines:
-	sample_check = sample.match(i)
-	if sample_check :
-		sample_ID = i.rstrip(".txt\n")
-	else :
-		result_table.write("%s\t%s"%(sample_ID,i))
-
-result.close()
-result_table.close()
-
-result_T = open("%s/result/%s_result_table.txt"%(maindir,cancer),'r') 
-result_Tlines = result_T.readlines()
-filtered_result = open("%s/result/%s_filtered_result.txt"%(maindir,cancer),'w')
-for i in result_Tlines:
-	sample = i.split('\t')[0]
-	fusion = i.split('\t')[1]
-	seed = int(i.split('\t')[2])
-	spanning = int(i.split('\t')[3].rstrip('\n'))
-	if (seed == 1 & spanning >= 2) | seed >= 2:
-		filtered_result.write("%s"%i)
-
-result_T.close()
-filtered_result.close()
-os.system("cut -f2 %s/result/%s_filtered_result.txt | sort | uniq -dc | sort > %s/result/%s_duplicate.txt"%(maindir,cancer,maindir,cancer))
 
 
-
-filtered_result = open("%s/result/%s_filtered_result.txt"%(maindir,cancer),'r')
-Flines = filtered_result.readlines()
-for i in Flines:
-	sample = i.split('\t')[0]
-	fusion = i.split('\t')[1]
-	H_gene = fusion.split('--')[0]
-	T_gene = fusion.split('--')[1]
-	if H_gene 
+filtered_paralog_result.txt
 
 #######
 #(ver.FusionScan)
