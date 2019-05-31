@@ -54,32 +54,43 @@ for cancer in cancer_list:
 	filtered_result = open("%s/result/%s_filtered_result.txt"%(maindir,cancer),'r')
 	Flines = filtered_result.readlines()
 	para_filtered_result = open("%s/result/%s_filtered_paralog_result.txt"%(maindir,cancer),'w')
-	para = open("%s/result/%s_paralog_trash.txt"%(maindir,cancer),'w')
-	no_HGNC = open("%s/result/%s_HGNC_trash.txt"%(maindir,cancer),'w')
 	#
 	for i in Flines:
 		fusion = i.split('\t')[2]
 		H_gene = fusion.split('--')[0]
 		T_gene = fusion.split('--')[1]
-		if len(H_gene) == 2 | len(T_gene) ==2:
-			if H_gene[0:2] == T_gene[0:2]:
-				para.write("%s"%i)
-			else:
+		if len(H_gene) <= 3 | len(T_gene) <= 3:
+			if H_gene[0:2] != T_gene[0:2]:
 				para_filtered_result.write("%s"%i)
 		elif H_gene[0:3] != T_gene[0:3]:
-			para.write("%s"%i)
-		elif H_gene.find("-") != -1 | T_gene.find("-") != -1 :
-			no_HGNC.write("%s"%i)
-		else: para_filtered_result.write("%s"%i)
+			para_filtered_result.write("%s"%i)
 	#
-	para.close()
-	no_HGNC.close()
 	filtered_result.close()
 	para_filtered_result.close()
+	#
+	para_filtered_result = open("%s/result/%s_filtered_paralog_result.txt"%(maindir,cancer),'r')
+	Plines = para_filtered_result.readlines()
+	para_IG_filtered_result = open("%s/result/%s_filtered_paralog_IG_result.txt"%(maindir,cancer),'w')
+	#
+	for i in Plines:
+		fusion = i.split('\t')[2]
+		H_gene = fusion.split('--')[0]
+		T_gene = fusion.split('--')[1]
+		if H_gene.find("-") == -1 & T_gene.find("-") == -1 :
+			if H_gene.find(".") == -1 & T_gene.find(".") == -1 :
+				para_IG_filtered_result.write("%s"%i)
+	#
+	para_filtered_result.close()
+	para_IG_filtered_result.close()
+
+
+_filtered_paralog_IG_result.txt
+
+############
+#Tumor - Normal
 
 
 
-filtered_paralog_result.txt
 
 #######
 #(ver.FusionScan)
