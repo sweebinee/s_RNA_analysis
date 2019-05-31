@@ -88,9 +88,86 @@ _filtered_paralog_IG_result.txt
 
 ############
 #Tumor - Normal
+#making Normal_sample_list
+cut -f1 ACC_N_FusionScan_candidate_result.txt | sort | uniq > ACC_normal_list.txt
+
+$ wc -l *normal_list.txt
+       0 ACC_normal_list.txt
+13      17 BLCA_normal_list.txt
+106     106 BRCA_normal_list.txt
+       0 CESC_normal_list.txt
+3       8 CHOL_normal_list.txt
+34      39 COAD_normal_list.txt
+       0 DLBC_normal_list.txt
+      13 ESCA_normal_list.txt
+       5 GBM_normal_list.txt
+      44 HNSC_normal_list.txt
+      14 KICH_normal_list.txt
+       6 KIRC_normal_list.txt
+      32 KIRP_normal_list.txt
+       0 LGG_normal_list.txt
+      30 LIHC_normal_list.txt
+      58 LUAD_normal_list.txt
+      47 LUSC_normal_list.txt
+       0 MESO_normal_list.txt
+       0 OV_normal_list.txt
+       4 PAAD_normal_list.txt
+       2 PCPG_normal_list.txt
+      52 PRAD_normal_list.txt
+       9 READ_normal_list.txt
+       2 SARC_normal_list.txt
+       0 SKCM_normal_list.txt
+      29 STAD_normal_list.txt
+       0 TGCT_normal_list.txt
+      46 THCA_normal_list.txt
+       1 THYM_normal_list.txt
+      33 UCEC_normal_list.txt
+       0 UCS_normal_list.txt
+       0 UVM_normal_list.txt
+     597 total
+
+import os,re
+
+cancer_list = set(['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD'])
+cancer_list_Normal = set(['BLCA','BRCA','CHOL','COAD','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LIHC','LUAD','LUSC','PAAD','PCPG','PRAD','READ','SARC','STAD','THCA','THYM','UCEC'])
+
+maindir = "/storage2/Project/TCGA_fusion/STARFusion/result"
+		
+#일단은 tumor랑 normal 나눠야함
+for cancer in cancer_list:
+	if cancer in (cancer_list - cancer_list_Normal) :
+		os.system("cp %s/%s_filtered_paralog_IG_result.txt %s/%s_filtered_paralog_IG_TN_result.txt"%(maindir,cancer,maindir,cancer))
+	else :
+		filtered_result = open('%s/%s_filtered_paralog_IG_result.txt'%(maindir,cancer),'r')
+		Flines = filtered_result.readlines()
+		normal_list = set([line.rstrip('\n') for line in open('%s/%s_normal_list.txt'%(maindir,cancer),'r')])
+		Tumor_result = open('%s/%s_Tumor.txt'%(maindir,cancer),'w')
+		Normal_result = open('%s/%s_Normal.txt'%(maindir,cancer),'w')
+		for i in Flines:
+			sample = '-'.join(i.split('\t')[1].split('-')[0:4])
+			if sample in normal_list:
+				Normal_result.write('%s'%i)
+			else :
+				Tumor_result.write('%s'%i)
+		filtered_result.close()
+		Tumor_result.close()
+		Normal_result.close()
+		#normal에서 나온 gene-pair set()으로 정리
+		normal_gene_pair = set([line.rstrip('\n').split('\t')[2] for line in open('%s/%s_Normal.txt'%(maindir,cancer),'r')])
+		print(normal_gene_pair)
+		#Tumor에서 나오면 제외함
+		Tumor = open('%s/%s_Tumor.txt'%(maindir,cancer),'r')
+		Tumor_line = Tumor.readlines()
+		final = open('%s/%s_filtered_paralog_IG_TN_result.txt'%(maindir,cancer),'w')
+		for i in Tumor_line :
+			fusion = i.split('\t')[2]
+			if fusion not in normal_gene_pair :
+				final.write('%s'%i)
+		Tumor.close()
+		final.close()
 
 
-
+#
 
 #######
 #(ver.FusionScan)
