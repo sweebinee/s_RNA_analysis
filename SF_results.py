@@ -173,7 +173,7 @@ for cancer in cancer_list:
 #(ver.FusionScan)
 import os 
 
-cancer = 'SKCM'
+cancer = 'SKCM'ㅌ
 maindir = '/storage/home/subin95/FusionScan_TCGA/%s/result'%cancer
 sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
 sample_list = set([line.rstrip("\n") for line in sample.readlines()])
