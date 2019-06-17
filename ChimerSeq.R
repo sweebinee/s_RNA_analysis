@@ -11,13 +11,15 @@ setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4")
 library(VennDiagram)
 
 Seq <- read.delim("ChimerSeq.txt",header =F, stringsAsFactors = F)
-colnames(Seq) <- c('id','Source','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_Oncogene','T_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
+colnames(Seq) <- c('id','ChimerDB_Type','Source','webSource','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_OncogeneT_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
 
 FS <- Seq[Seq$Source=='FusionScan','Fusion_pair']
 Gao <- Seq[Seq$Source=='Gao et al','Fusion_pair']
 PRADA <- Seq[Seq$Source=='PRADA(TumorFusion)','Fusion_pair']
 SF <- Seq[Seq$Source=='STARFusion','Fusion_pair']
-TF <- gsub('_','-',Seq[Seq$Source=='Tophat-Fusion','Fusion_pair'])
+TF <- Seq[Seq$Source=='Tophat-Fusion','Fusion_pair']
+DB2 <- Seq[Seq$Source=='ChimerDB 2.0','Fusion_pair']
+CT <- Seq[Seq$Source=='ChiTaRs','Fusion_pair']
 
 library(venn)
 Input = list(
@@ -25,18 +27,20 @@ Input = list(
         Gao = Gao,
         PRADA = PRADA,
         STARFusion = SF,
-        TophatFusion = TF
+        TophatFusion = TF,
         )
 venn(Input,ilab=TRUE, zcolor = "style",opacity = 0.3, size = 15, cexil = 0.85, cexsn = 1)
 
-union_fusion = union(union(union(union(FS, Gao),PRADA),SF),TF)
-FS_only = setdiff(setdiff(setdiff(setdiff(FS, Gao),PRADA),SF),TF)
-SF_only = setdiff(setdiff(setdiff(setdiff(SF, Gao),PRADA),FS),TF)
-PRADA_only = setdiff(setdiff(setdiff(setdiff(PRADA, Gao),SF),FS),TF)
-Gao_only = setdiff(setdiff(setdiff(setdiff(Gao, PRADA),SF),FS),TF)
-TF_only = setdiff(setdiff(setdiff(setdiff(TF, PRADA),SF),FS),Gao)
+union_fusion = union(union(union(union(union(union(FS, Gao),PRADA),SF),TF),DB2),CT)
+FS_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(FS, Gao),PRADA),SF),TF),DB2),CT)
+SF_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(SF, Gao),PRADA),FS),TF),DB2),CT)
+PRADA_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(PRADA, Gao),SF),FS),TF),DB2),CT)
+Gao_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(Gao, PRADA),SF),FS),TF),DB2),CT)
+TF_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(TF, PRADA),SF),FS),Gao),DB2),CT)
+DB2_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(DB2, PRADA),SF),FS),Gao),TF),CT)
+CT_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(CT, PRADA),SF),FS),Gao),TF),DB2)
 
-HRS_fusion = setdiff(setdiff(setdiff(setdiff(setdiff(union_fusion,FS_only),SF_only),PRADA_only),Gao_only),TF_only)
+HRS_fusion = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(union_fusion,FS_only),SF_only),PRADA_only),Gao_only),TF_only),DB2_only),CT_only)
 
 HRS <- Seq[Seq$Fusion_pair %in% HRS_fusion,]
 
