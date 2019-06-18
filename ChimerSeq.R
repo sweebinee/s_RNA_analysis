@@ -13,13 +13,13 @@ library(VennDiagram)
 Seq <- read.delim("ChimerSeq.txt",header =F, stringsAsFactors = F)
 colnames(Seq) <- c('id','ChimerDB_Type','Source','webSource','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_OncogeneT_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
 
-FS <- Seq[Seq$Source=='FusionScan','Fusion_pair']
-Gao <- Seq[Seq$Source=='Gao et al','Fusion_pair']
-PRADA <- Seq[Seq$Source=='PRADA(TumorFusion)','Fusion_pair']
-SF <- Seq[Seq$Source=='STARFusion','Fusion_pair']
-TF <- Seq[Seq$Source=='Tophat-Fusion','Fusion_pair']
-DB2 <- Seq[Seq$Source=='ChimerDB 2.0','Fusion_pair']
-CT <- Seq[Seq$Source=='ChiTaRs','Fusion_pair']
+FS <- unique(Seq[Seq$Source=='FusionScan','Fusion_pair'])
+Gao <- unique(Seq[Seq$Source=='Gao et al','Fusion_pair'])
+PRADA <- unique(Seq[Seq$Source=='PRADA(TumorFusion)','Fusion_pair'])
+SF <- unique(Seq[Seq$Source=='STARFusion','Fusion_pair'])
+TF <- unique(Seq[Seq$Source=='Tophat-Fusion','Fusion_pair'])
+DB2 <- unique(Seq[Seq$Source=='ChimerDB 2.0','Fusion_pair'])
+CT <- unique(Seq[Seq$Source=='ChiTaRs','Fusion_pair'])
 
 library(venn)
 Input = list(
@@ -27,7 +27,7 @@ Input = list(
         Gao = Gao,
         PRADA = PRADA,
         STARFusion = SF,
-        TophatFusion = TF,
+        TophatFusion = TF
         )
 venn(Input,ilab=TRUE, zcolor = "style",opacity = 0.3, size = 15, cexil = 0.85, cexsn = 1)
 
