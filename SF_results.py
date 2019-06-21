@@ -235,7 +235,47 @@ for cancer in cancer_list:
 	Tumor.close()
 	final.close()
 
-#
+######################################
+#STAR-Fusion inframed sample AA results
+
+import os,re
+
+cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
+
+
+for cancer in cancer_list:
+	#cancer = 'ACC'
+	maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
+	sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
+	sample_list = set([line.rstrip("\n") for line in sample.readlines()])
+	os.system("rm %s/result/%s_result.txt"%(maindir,cancer))
+	#i = 'TCGA-OR-A5LR-01A-11R-A29S-07'
+	for i in sample_list:
+		#os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.annotated.coding_effect.tsv"%(maindir,i,maindir,i))
+		os.system("cat %s/%s/star-fusion.fusion_predictions.abridged.annotated.coding_effect.tsv > %s/result/%s.txt"%(maindir,i,maindir,i))
+		os.system("ls %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+		os.system("cat %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+	#
+	os.system("sed '/#/d' %s/result/%s_result.txt > %s/result/1.txt"%(maindir,cancer,maindir))
+	os.system("sed 's/\/storage2\/Project\/TCGA_fusion\/STARFusion\/%s\/result\///g' %s/result/1.txt > %s/result/%s_result.txt"%(cancer,maindir,maindir,cancer))
+	#
+	result = open("%s/result/%s_result.txt"%(maindir,cancer),'r') 
+	result_lines = result.readlines()
+	sample = re.compile("^TCGA")
+	result_table = open("%s/result/%s_result_table.txt"%(maindir,cancer),'w')
+	#sample_ID   fusion   JunctionReadCount   SpanningFragCount
+	for i in result_lines:
+		sample_check = sample.match(i)
+		if sample_check :
+			sample_ID = i.rstrip(".txt\n")
+		else :
+			result_table.write("%s\t%s\t%s"%(cancer,sample_ID,i))
+	#
+	result.close()
+	result_table.close()
+	
+#####################################################################################################################################################
+
 
 #######
 #(ver.FusionScan)

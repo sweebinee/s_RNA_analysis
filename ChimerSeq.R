@@ -108,3 +108,6 @@ layout = go.layout(barmode = 'group',
 fig = go.Figure(data = traces, layout = layout)
 plotly.offline.iplot(fig)
 ###############################################################################################
+
+
+
