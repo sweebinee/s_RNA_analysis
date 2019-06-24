@@ -5,7 +5,7 @@ sed '/Fusion_pair/d' 1.txt > ChimerSeq.txt
 ## Finding Highly reliable seq
 ### venndiagram of unique fusion pairs from different programs
 ##R
-setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4")
+setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4/ChimerSeq")
 
 #biocLite("VennDiagram")
 library(VennDiagram)
