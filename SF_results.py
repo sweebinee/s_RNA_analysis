@@ -235,6 +235,12 @@ for cancer in cancer_list:
 	Tumor.close()
 	final.close()
 
+for cancer in cancer_list:
+	T = set([line.rstrip("\n").split('\t')[3] for line in open("%s/%s_Tumor.txt"%(maindir,cancer),'r').readlines()])
+	N = set([line.rstrip("\n").split('\t')[3] for line in open("%s/%s_Normal.txt"%(maindir,cancer),'r').readlines()])
+	sub = T&N
+	print '%s\t%s : %s : %s'%(cancer,len(T),len(N),len(sub))
+
 ######################################
 #STAR-Fusion inframed sample AA results
 
