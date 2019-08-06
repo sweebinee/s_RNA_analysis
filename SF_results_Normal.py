@@ -2,10 +2,10 @@ ls -d ERR* > N_171_sample.txt
 
 import os, re
 
-normal='N_171'
-sample_pattern='ERR315'
+normal='1000G'
+sample_pattern='ERR188'
 
-maindir='/storage2/Project/TCGA_fusion/STARFusion/Normal/N_171'
+maindir='/storage2/Project/TCGA_fusion/STARFusion/Normal/1000G'
 sample=open('%s/%s_sample.txt'%(maindir,normal),'r')
 sample_list=set([line.rstrip('\n') for line in sample.readlines()])
 os.system("rm %s/result/%s_result.txt"%(maindir,normal))

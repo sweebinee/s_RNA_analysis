@@ -248,7 +248,6 @@ import os,re
 
 cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
 
-
 for cancer in cancer_list:
 	#cancer = 'ACC'
 	maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
@@ -287,7 +286,7 @@ for cancer in cancer_list:
 #(ver.FusionScan)
 import os 
 
-cancer = 'SKCM'ㅌ
+cancer = 'SKCM'
 maindir = '/storage/home/subin95/FusionScan_TCGA/%s/result'%cancer
 sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
 sample_list = set([line.rstrip("\n") for line in sample.readlines()])
