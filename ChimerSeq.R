@@ -4,6 +4,7 @@
 ### venndiagram of unique fusion pairs from different programs
 ##R
 setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4")
+swewd('/Users/subin/Desktop/ChimerDB04')
 
 biocLite("VennDiagram")
 library(VennDiagram)
@@ -46,6 +47,8 @@ data <- merge(merge(merge(merge(FS,SF,by='Cancertype',all=TRUE),PRADA,by='Cancer
 colnames(data) <- c("Cancertype","FusionScan","STARFusion","PRADA","Gao","TophatFusion")
 is.na(data) <- 0
 
+
 p <- plot_ly(data, x = ~Animals, y = ~SF_Zoo, type = 'bar', name = 'SF Zoo') %>%
   add_trace(y = ~LA_Zoo, name = 'LA Zoo') %>%
   layout(yaxis = list(title = 'Count'), barmode = 'group')
+
