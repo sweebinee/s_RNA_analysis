@@ -3,7 +3,9 @@ ls -d TCGA* > PAAD_sample.txt
 
 import os,re
 
-cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
+cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC']
+cancer_list = ['KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM']
+cancer_list = ['STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
 #LAML 따로 
 
 for cancer in cancer_list:
@@ -162,88 +164,124 @@ para_IG_filtered_result.close()
 
 _filtered_paralog_IG_result.txt
 
+%s/result/%s_filtered_paralog_IG_result.txt
+
+cp  /storage2/Project/TCGA_fusion/STARFusion/ACC/result/ACC_filtered_paralog_IG_result.txt  /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/BLCA/result/BLCA_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/BRCA/result/BRCA_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/CESC/result/CESC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/CHOL/result/CHOL_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/COAD/result/COAD_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/DLBC/result/DLBC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/ESCA/result/ESCA_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/GBM/result/GBM_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/HNSC/result/HNSC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/KICH/result/KICH_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/KIRC/result/KIRC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/KIRP/result/KIRP_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/LGG/result/LGG_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/LIHC/result/LIHC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/LUAD/result/LUAD_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/LUSC/result/LUSC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/MESO/result/MESO_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/OV/result/OV_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/PCPG/result/PCPG_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/PRAD/result/PRAD_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/READ/result/READ_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/SARC/result/SARC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/SKCM/result/SKCM_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/STAD/result/STAD_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/THCA/result/THCA_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/THYM/result/THYM_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/UCEC/result/UCEC_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/UCS/result/UCS_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/UVM/result/UVM_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/TGCT/result/TGCT_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/PAAD/result/PAAD_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
+cp /storage2/Project/TCGA_fusion/STARFusion/LAML/result/LAML_filtered_paralog_IG_result.txt /storage2/Project/TCGA_fusion/STARFusion/result
 ############
 #Tumor - Normal
-#making Normal_sample_list
-cut -f1 ACC_N_FusionScan_candidate_result.txt | sort | uniq > ACC_normal_list.txt
-
-$ wc -l *normal_list.txt
-       0 ACC_normal_list.txt
-13      17 BLCA_normal_list.txt
-106     106 BRCA_normal_list.txt
-       0 CESC_normal_list.txt
-3       8 CHOL_normal_list.txt
-34      39 COAD_normal_list.txt
-       0 DLBC_normal_list.txt
-      13 ESCA_normal_list.txt
-       5 GBM_normal_list.txt
-      44 HNSC_normal_list.txt
-      14 KICH_normal_list.txt
-       6 KIRC_normal_list.txt
-      32 KIRP_normal_list.txt
-       0 LGG_normal_list.txt
-      30 LIHC_normal_list.txt
-      58 LUAD_normal_list.txt
-      47 LUSC_normal_list.txt
-       0 MESO_normal_list.txt
-       0 OV_normal_list.txt
-       4 PAAD_normal_list.txt
-       2 PCPG_normal_list.txt
-      52 PRAD_normal_list.txt
-       9 READ_normal_list.txt
-       2 SARC_normal_list.txt
-       0 SKCM_normal_list.txt
-      29 STAD_normal_list.txt
-       0 TGCT_normal_list.txt
-      46 THCA_normal_list.txt
-       1 THYM_normal_list.txt
-      33 UCEC_normal_list.txt
-       0 UCS_normal_list.txt
-       0 UVM_normal_list.txt
-     597 total
-
-import os,re
 
 cancer_list = set(['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LAML','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD'])
-cancer_list_Normal = set(['BLCA','BRCA','CHOL','COAD','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LIHC','LUAD','LUSC','PAAD','PCPG','PRAD','READ','SARC','STAD','THCA','THYM','UCEC'])
 
 maindir = "/storage2/Project/TCGA_fusion/STARFusion/result"
 		
 #일단은 tumor랑 normal 나눠야함
 for cancer in cancer_list:
-	if cancer in (cancer_list - cancer_list_Normal) :
-		os.system("cp %s/%s_filtered_paralog_IG_result.txt %s/%s_filtered_paralog_IG_TN_result.txt"%(maindir,cancer,maindir,cancer))
-	else :
-		filtered_result = open('%s/%s_filtered_paralog_IG_result.txt'%(maindir,cancer),'r')
-		Flines = filtered_result.readlines()
-		normal_list = set([line.rstrip('\n') for line in open('%s/%s_normal_list.txt'%(maindir,cancer),'r')])
-		Tumor_result = open('%s/%s_Tumor.txt'%(maindir,cancer),'w')
-		Normal_result = open('%s/%s_Normal.txt'%(maindir,cancer),'w')
-		for i in Flines:
-			sample = '-'.join(i.split('\t')[1].split('-')[0:4])
-			if sample in normal_list:
-				Normal_result.write('%s'%i)
-			else :
-				Tumor_result.write('%s'%i)
-		filtered_result.close()
-		Tumor_result.close()
-		Normal_result.close()
-		#normal에서 나온 gene-pair set()으로 정리
-		normal_gene_pair = set([line.rstrip('\n').split('\t')[2] for line in open('%s/%s_Normal.txt'%(maindir,cancer),'r')])
-		print(normal_gene_pair)
-		#Tumor에서 나오면 제외함
-		Tumor = open('%s/%s_Tumor.txt'%(maindir,cancer),'r')
-		Tumor_line = Tumor.readlines()
-		final = open('%s/%s_filtered_paralog_IG_TN_result.txt'%(maindir,cancer),'w')
-		for i in Tumor_line :
-			fusion = i.split('\t')[2]
-			if fusion not in normal_gene_pair :
-				final.write('%s'%i)
-		Tumor.close()
-		final.close()
+	filtered_result = open('%s/%s_filtered_paralog_IG_result.txt'%(maindir,cancer),'r')
+	Flines = filtered_result.readlines()
+	Tumor_result = open('%s/%s_Tumor.txt'%(maindir,cancer),'w')
+	Normal_result = open('%s/%s_Normal.txt'%(maindir,cancer),'w')
+	for i in Flines:
+		sample = i.split('\t')[1]
+		if sample.find('-11A') != -1 or sample.find('-11B') != -1 :
+			Normal_result.write('%s'%i)
+		else:
+			Tumor_result.write('%s'%i)
+	filtered_result.close()
+	Tumor_result.close()
+	Normal_result.close()
+	#normal에서 나온 gene-pair set()으로 정리
+	normal_gene_pair = set([line.rstrip('\n').split('\t')[2] for line in open('%s/%s_Normal.txt'%(maindir,cancer),'r')])
+	print(normal_gene_pair)
+	#Tumor에서 나오면 제외함
+	Tumor = open('%s/%s_Tumor.txt'%(maindir,cancer),'r')
+	Tumor_line = Tumor.readlines()
+	final = open('%s/%s_filtered_paralog_IG_TN_result.txt'%(maindir,cancer),'w')
+	for i in Tumor_line :
+		fusion = i.split('\t')[2]
+		if fusion not in normal_gene_pair :
+			final.write('%s'%i)
+	Tumor.close()
+	final.close()
+
+for cancer in cancer_list:
+	T = set([line.rstrip("\n").split('\t')[3] for line in open("%s/%s_Tumor.txt"%(maindir,cancer),'r').readlines()])
+	N = set([line.rstrip("\n").split('\t')[3] for line in open("%s/%s_Normal.txt"%(maindir,cancer),'r').readlines()])
+	sub = T&N
+	print '%s\t%s : %s : %s'%(cancer,len(T),len(N),len(sub))
+
+######################################
+#STAR-Fusion inframed sample AA results
+
+import os,re
+
+cancer_list = ['ACC','BLCA','BRCA','CESC','CHOL','COAD','DLBC','ESCA','GBM','HNSC','KICH','KIRC','KIRP','LGG','LIHC','LUAD','LUSC','MESO','OV','PCPG','PRAD','READ','SARC','SKCM','STAD','THCA','THYM','UCEC','UCS','UVM','TGCT','PAAD']
 
 
-#
+for cancer in cancer_list:
+	#cancer = 'ACC'
+	maindir = '/storage2/Project/TCGA_fusion/STARFusion/%s'%cancer
+	sample = open("%s/%s_sample.txt"%(maindir,cancer),'r')
+	sample_list = set([line.rstrip("\n") for line in sample.readlines()])
+	os.system("rm %s/result/%s_result.txt"%(maindir,cancer))
+	#i = 'TCGA-OR-A5LR-01A-11R-A29S-07'
+	for i in sample_list:
+		#os.system("cp %s/%s/star-fusion.fusion_candidates.final %s/%s/star-fusion.fusion_predictions.abridged.annotated.coding_effect.tsv"%(maindir,i,maindir,i))
+		os.system("cat %s/%s/star-fusion.fusion_predictions.abridged.annotated.coding_effect.tsv > %s/result/%s.txt"%(maindir,i,maindir,i))
+		os.system("ls %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+		os.system("cat %s/result/%s.txt >> %s/result/%s_result.txt"%(maindir,i,maindir,cancer))
+	#
+	os.system("sed '/#/d' %s/result/%s_result.txt > %s/result/1.txt"%(maindir,cancer,maindir))
+	os.system("sed 's/\/storage2\/Project\/TCGA_fusion\/STARFusion\/%s\/result\///g' %s/result/1.txt > %s/result/%s_result.txt"%(cancer,maindir,maindir,cancer))
+	#
+	result = open("%s/result/%s_result.txt"%(maindir,cancer),'r') 
+	result_lines = result.readlines()
+	sample = re.compile("^TCGA")
+	result_table = open("%s/result/%s_result_table.txt"%(maindir,cancer),'w')
+	#sample_ID   fusion   JunctionReadCount   SpanningFragCount
+	for i in result_lines:
+		sample_check = sample.match(i)
+		if sample_check :
+			sample_ID = i.rstrip(".txt\n")
+		else :
+			result_table.write("%s\t%s\t%s"%(cancer,sample_ID,i))
+	#
+	result.close()
+	result_table.close()
+	
+#####################################################################################################################################################
+
 
 #######
 #(ver.FusionScan)
