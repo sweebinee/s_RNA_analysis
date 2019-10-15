@@ -5,60 +5,136 @@ sed '/Fusion_pair/d' 1.txt > ChimerSeq.txt
 ## Finding Highly reliable seq
 ### venndiagram of unique fusion pairs from different programs
 ##R
-<<<<<<< HEAD
+
 #setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4/ChimerSeq")
-setwd("/home/subin/Desktop/ChimerDB")
-=======
-setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4")
-setwd('/Users/subin/Desktop/ChimerDB04')
-setwd('/Users/subin/Downloads')
->>>>>>> origin/master
+#setwd("/home/subin/Desktop/ChimerDB")
+#setwd("/media/subin/fec664d7-6f05-4f07-86cb-b7b76cd331b2/ChimerDB4")
+#setwd('/Users/subin/Desktop/ChimerDB04')
+#setwd('/Users/subin/Downloads')
 
-#biocLite("VennDiagram")
-library(VennDiagram)
 
-<<<<<<< HEAD
-Seq <- read.delim("ChimerSeq.txt",header =F, stringsAsFactors = F)
-colnames(Seq) <- c('id','ChimerDB_Type','Source','webSource','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_Oncogene','T_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
+Seq <- read.delim("ChimerSeq4_final_result.csv",header =T, stringsAsFactors = F,sep=',')
+#colnames(Seq) <- c('id','ChimerDB_Type','Source','webSource','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_Oncogene','T_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
 #Seq <- Seq[,-36]
-=======
-Seq <- read.delim("ChimerSeq_total_final_refileter_rename_intersect - ChimerSeq_total_final_refileter_rename_intersect.tsv",header =T, stringsAsFactors = F)
-colnames(Seq) <- c('id','ChimerDB_Type','Source','webSource','Fusion_pair','H_gene','H_chr','H_position','H_strand','T_gene','T_chr','T_position','T_strand','Breakpoint','Genome_Build_Version','Cancertype','BarcodeID','Seed_read','Spanning_read','Junction_read','Frame','Chr_info','H_locus','H_Kinase','H_Oncogene','H_Tumor_suppressor','H_Receptor','H_Transcription_factor','T_locus','T_Kinase','T_Oncogene','T_Tumor_suppressor','T_Receptor','T_Transcription_factor','ChimerKB','ChimerPub')
-Seq <- Seq[,-36]
->>>>>>> origin/master
 
-FS <- unique(Seq[Seq$Source=='FusionScan','Fusion_pair'])
+FS <- unique(Seq[Seq$Source=='FusionScan'&Seq$Cancertype!='Non-Cancer','Fusion_pair'])
 Gao <- unique(Seq[Seq$Source=='Gao et al','Fusion_pair'])
 PRADA <- unique(Seq[Seq$Source=='PRADA(TumorFusion)','Fusion_pair'])
-SF <- unique(Seq[Seq$Source=='STARFusion','Fusion_pair'])
+SF <- unique(Seq[Seq$Source=='STARFusion'&Seq$Cancertype!='Non-Cancer','Fusion_pair'])
 TF <- unique(Seq[Seq$Source=='Tophat-Fusion','Fusion_pair'])
 DB2 <- unique(Seq[Seq$Source=='ChimerDB 2.0','Fusion_pair'])
 CT <- unique(Seq[Seq$Source=='ChiTaRs','Fusion_pair'])
+NC<- unique(Seq[Seq$Cancertype=='Non-Cancer','Fusion_pair'])
+
+total_F <- union(union(union(union(union(union(FS, Gao),PRADA),SF),TF),DB2),CT)
+Seq_FP <- total_F
+length(unique(Seq$Fusion_pair))
+
+KB_s <- unique(Seq[Seq$ChimerKB=='ChimerKB','Fusion_pair'])
+Pub_s <- unique(Seq[Seq$ChimerPub=='ChimerPub','Fusion_pair'])
+
+TCGA_novel <- unique(Seq[Seq$Fusion_pair %in% union_fusion & Seq$ChimerKB=='','Fusion_pair'])
+TCGA_known <- unique(Seq[Seq$Fusion_pair %in% union_fusion & Seq$ChimerKB=='ChimerKB','Fusion_pair'])
+
+CT_novel <- unique(Seq[Seq$Fusion_pair %in% CT & Seq$ChimerKB=='','Fusion_pair'])
+
 
 library(venn)
 Input = list(
         FusionScan = FS,
-        Gao = Gao,
-        PRADA = PRADA,
+        TCGA_FAWG = Gao,
+        TumorFusions = PRADA,
         STARFusion = SF,
-        TophatFusion = TF
+        TophatFusions = TF
         )
-venn(Input,ilab=TRUE, zcolor = "style",opacity = 0.3, size = 15, cexil = 0.85, cexsn = 1,device=cairo_ps)
+venn(Input,ilab=TRUE, zcolor = "style",opacity = 0.35, size = 15, cexil = 1.1, cexsn = 0.5,device=cairo_ps)
 
-union_fusion = union(union(union(union(union(union(FS, Gao),PRADA),SF),TF),DB2),CT)
-FS_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(FS, Gao),PRADA),SF),TF),DB2),CT)
-SF_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(SF, Gao),PRADA),FS),TF),DB2),CT)
-PRADA_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(PRADA, Gao),SF),FS),TF),DB2),CT)
-Gao_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(Gao, PRADA),SF),FS),TF),DB2),CT)
-TF_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(TF, PRADA),SF),FS),Gao),DB2),CT)
-DB2_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(DB2, PRADA),SF),FS),Gao),TF),CT)
-CT_only = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(CT, PRADA),SF),FS),Gao),TF),DB2)
+union_fusion = union(union(union(union(FS, Gao),PRADA),SF),TF)
+FS_only = setdiff(setdiff(setdiff(setdiff(FS, Gao),PRADA),SF),TF)
+SF_only = setdiff(setdiff(setdiff(setdiff(SF, Gao),PRADA),FS),TF)
+PRADA_only = setdiff(setdiff(setdiff(setdiff(PRADA, Gao),SF),FS),TF)
+Gao_only = setdiff(setdiff(setdiff(setdiff(Gao, PRADA),SF),FS),TF)
+TF_only = setdiff(setdiff(setdiff(setdiff(TF, PRADA),SF),FS),Gao)
 
-HRS_fusion = setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(setdiff(union_fusion,FS_only),SF_only),PRADA_only),Gao_only),TF_only),DB2_only),CT_only)
+HRS_fusion = setdiff(setdiff(setdiff(setdiff(setdiff(union_fusion,FS_only),SF_only),PRADA_only),Gao_only),TF_only)
 
 HRS <- Seq[Seq$Fusion_pair %in% HRS_fusion,]
 
 write.table(HRS, "Highly_Reliable_Seq.txt", sep = '\t')
+
+###
+#기여도 테스트
+table <- data.frame(HRS_fusion)
+table$SF <- 0
+table$FAWG <- 0
+table$PRADA <- 0
+table$FS <- 0
+table$TF <- 0
+table$sum <- 0
+
+for(i in c(1:nrow(table))){
+  if(table$HRS_fusion[i] %in% SF){
+    table$SF[i] <- 1
+  }
+  if(table$HRS_fusion[i] %in% Gao){
+    table$FAWG[i] <- 1
+  }
+  if(table$HRS_fusion[i] %in% PRADA){
+    table$PRADA[i] <- 1
+  }
+  if(table$HRS_fusion[i] %in% FS){
+    table$FS[i] <- 1
+  }
+  if(table$HRS_fusion[i] %in% TF){
+    table$TF[i] <- 1
+  }
+  table$sum[i] <- table$SF[i]+table$FAWG[i]+table$PRADA[i]+table$FS[i]+table$TF[1]
+}
+
+SF_HRS <- length(table[table$SF==1,'HRS_fusion'])
+FAWG_HRS <- length(table[table$FAWG==1,'HRS_fusion'])
+PRADA_HRS <- length(table[table$PRADA==1,'HRS_fusion'])
+FS_HRS <- length(table[table$FS==1,'HRS_fusion'])
+TF_HRS <- length(table[table$TF==1,'HRS_fusion'])
+
+eFAWG <- table[table$FAWG==1&table$sum==2,]
+ePRADA <- table[table$PRADA==1&table$sum==2,]
+eFS <- table[table$FS==1&table$sum==2,]
+eTF <- table[table$TF==1&table$sum==2,]
+
+eSF <- table[table$SF==1&table$sum==2,]
+eFAWG <- table[table$FAWG==1&table$sum==2,]
+ePRADA <- table[table$PRADA==1&table$sum==2,]
+eFS <- table[table$FS==1&table$sum==2,]
+eTF <- table[table$TF==1&table$sum==2,]
+
+length(eSF$HRS_fusion)
+length(eFAWG$HRS_fusion)
+length(ePRADA$HRS_fusion)
+length(eFS$HRS_fusion)
+length(eTF$HRS_fusion)
+
+
+
+###############################################################################################
+## KB, Pub, Seq plot
+KB <- read.delim("Final_ChimerKB_for_db - Final_ChimerKB_for_db.tsv",header =T, stringsAsFactors = F)
+KB_FP <- unique(KB$Fusion_pair)
+
+Pub <- read.delim("ChimerPub_Final2.csv",header =T, stringsAsFactors = F, sep=',')
+Pub <- Pub[,c(1:17)]
+colnames(Pub) <- c('num','Fusion_pair','Translocation','5gene','3gene','PMID','score','disase','validation','kinase','oncogene','TumorSuppressor','','TF','ChimerKB','ChimerSeq','ChimerSeqPlus')
+Pub_FP <- unique(Pub$Fusion_pair)
+
+ChimerDB_FP <- union(union(KB_FP,Pub_FP),Seq_FP)
+
+Input = list(
+        KB = KB_FP,
+        Pub = Pub_FP,
+        Seq = Seq_FP
+        )
+venn(Input,ilab=TRUE, zcolor = "style",opacity = 0.35, size = 15, cexil = 1.1, cexsn = 0.5,device=cairo_ps)
+
 
 
 ###############################################################################################
